@@ -55,6 +55,7 @@ branches:
   only:
     - master
     - maint
+    - /msmpi.*/
 
 init:
   - "ECHO Python %PYTHON_VERSION% (%PYTHON_ARCH%bit) from %PYTHON%"
@@ -82,7 +83,7 @@ build_script:
 test: off
 test_script:
   - "%PYTHON%\\Scripts\\pip.exe install --no-cache-dir --no-index --find-links=dist\\ mpi4py"
-  - "%PYTHON%\\python.exe %CD%\\test\\runtests.py -v -f --no-builddir"
+  - "\"%MSMPI_BIN%\\mpiexec.exe\" -n 1 %PYTHON%\\python.exe %CD%\\test\\runtests.py -v -f --no-builddir"
   - "%PYTHON%\\Scripts\\pip.exe uninstall --yes mpi4py"
 
 after_test:
